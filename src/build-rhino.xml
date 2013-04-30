@@ -1,0 +1,26 @@
+<project name="ant-less" default="rhino" basedir=".">
+    <description>convert less files to css files with rhino</description>
+    <property name="rhino.jar" location="libs/rhino/js.jar"/>
+    <property name="less.js" location="libs/less/less-rhino-1.4.0.js"/>
+    <property name="less.dir" location="less"/>
+    <property name="css.dir" location="${less.dir}/css"/>
+    <target name="init">
+        <!--Delete all the css files-->
+        <echo>Cleaning the css directory...</echo>
+        <delete includeemptydirs="true">
+            <fileset dir="${css.dir}" includes="*.css"/>
+        </delete>
+    </target>
+    <target name="rhino" depends="init">
+        <echo>Converting less to css with rhino...</echo>
+        <apply dir="${less.dir}" executable="java" parallel="false" failonerror="true">
+            <fileset dir="${less.dir}" includes="*.less"/>
+            <arg value="-jar"/>
+            <arg path="${rhino.jar}"/>
+            <arg path="${less.js}"/>
+            <srcfile/>
+            <mapper type="glob" from="*.less" to="${css.dir}/*.css"/>
+            <targetfile/>
+        </apply>
+    </target>
+</project>
