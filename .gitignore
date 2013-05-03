@@ -2,5 +2,5 @@
 *.ipl
 *.iws
 .idea/
-out/test/
+out/
 .DS_Store

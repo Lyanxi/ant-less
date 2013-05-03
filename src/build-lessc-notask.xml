@@ -1,0 +1,27 @@
+<project name="ant-less" default="less" basedir=".">
+    <description>convert less files to css files with rhino</description>
+    <property name="src.dir" location="."/>
+    <property name="classes.dir" location="../out/production/ant-less"/>
+    <property name="less.dir" location="less"/>
+    <property name="css.dir" location="${less.dir}/css"/>
+    <property name="less.tool" value="${user.home}/.npm/less/1.3.3/package/bin/lessc"/>
+    <property name="node.path" location="/usr/local/bin"/>
+    <target name="init">
+        <!--Delete all the css files-->
+        <echo>Cleaning the css directory...</echo>
+        <delete includeemptydirs="true">
+            <fileset dir="${css.dir}" includes="*.css"/>
+            <fileset dir="${classes.dir}" includes="**/*"/>
+        </delete>
+    </target>
+    <target name="less">
+        <apply dir="${less.dir}" executable="${less.tool}" parallel="false" failonerror="true">
+            <env key="PATH" path="${node.path}"/>
+            <fileset dir="${less.dir}" includes="*.less"/>
+            <srcfile/>
+            <mapper type="glob" from="*.less" to="${css.dir}/*.css"/>
+            <targetfile/>
+        </apply>
+    </target>
+
+</project>
